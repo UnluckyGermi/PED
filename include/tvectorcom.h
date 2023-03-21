@@ -10,7 +10,7 @@ using namespace std;
 class TVectorCom
 {
     private:
-        TComplejo *error;
+        TComplejo error;
         TComplejo *c;
         int tamano;
     public:

@@ -2,14 +2,12 @@
 
 TVectorCom::TVectorCom()
 {
-    error = new TComplejo();
     c = NULL;
     tamano = 0;
 }
 
 TVectorCom::TVectorCom(int tam)
 {
-    error = new TComplejo();
     if (tam > 0)
     {
         c = new TComplejo[tam];
@@ -29,54 +27,38 @@ TVectorCom::~TVectorCom(){
         c = NULL;
     }
 
-    if (error != NULL)
-    {
-        delete error;
-        error = NULL;
-    }
+    tamano = 0;
 }
 
 TVectorCom::TVectorCom(const TVectorCom &v)
 {
-    if (v.c != NULL)
+    c = new TComplejo[v.tamano];
+    tamano = v.tamano;
+
+    for (int i = 0; i < tamano; i++)
     {
-        c = new TComplejo[v.tamano];
-        tamano = v.tamano;
-        for (int i = 0; i < tamano; i++)
-        {
-            c[i] = v.c[i];
-        }
+        c[i] = v.c[i];
     }
-    else
-    {
-        c = NULL;
-        tamano = 0;
-    }
+    
 }
 
-TVectorCom& TVectorCom::operator=(const TVectorCom &v)
+
+TVectorCom& TVectorCom::operator=(const TVectorCom& v)
 {
     if (this != &v)
     {
-        if (c != NULL)
-        {
-            delete [] c;
-            c = NULL;
-        }
+        // Liberar la memoria ocupada por el objeto actual
+        delete[] c;
+        tamano = 0;
 
-        if (v.c != NULL)
+        // Copiar el tamaño y crear un nuevo array de TComplejo
+        tamano = v.tamano;
+        c = new TComplejo[tamano];
+
+        // Copiar los elementos de TComplejo
+        for (int i = 0; i < tamano; i++)
         {
-            c = new TComplejo[v.tamano];
-            tamano = v.tamano;
-            for (int i = 0; i < tamano; i++)
-            {
-                c[i] = v.c[i];
-            }
-        }
-        else
-        {
-            c = NULL;
-            tamano = 0;
+            c[i] = v.c[i];
         }
     }
 
@@ -101,6 +83,11 @@ bool TVectorCom::operator==(const TVectorCom &v) const
     return true;
 }
 
+bool TVectorCom::operator!=(const TVectorCom &v) const
+{
+    return !(*this == v);
+}
+
 TComplejo& TVectorCom::operator[](int pos)
 {
     if (pos >= 1 && pos <= tamano)
@@ -108,7 +95,7 @@ TComplejo& TVectorCom::operator[](int pos)
         return c[pos - 1];
     }
 
-    return *error;
+    return error;
 }
 
 TComplejo TVectorCom::operator[](int pos) const
@@ -118,7 +105,7 @@ TComplejo TVectorCom::operator[](int pos) const
         return c[pos - 1];
     }
 
-    return *error;
+    return error;
 }
 
 int TVectorCom::Tamano() const
@@ -129,8 +116,8 @@ int TVectorCom::Tamano() const
 int TVectorCom::Ocupadas() const
 {
     int ocupadas = 0;
-    for (int i = 1; i <= tamano; i++)
-    {
+    for (int i = 0; i < tamano; i++)
+    {   
         if (c[i].Re() != 0 || c[i].Im() != 0)
         {
             ocupadas++;
@@ -142,7 +129,7 @@ int TVectorCom::Ocupadas() const
 
 bool TVectorCom::ExisteCom(const TComplejo &c) const
 {
-    for (int i = 1; i <= tamano; i++)
+    for (int i = 0; i < tamano; i++)
     {
         if (this -> c[i] == c)
         {
@@ -156,18 +143,21 @@ bool TVectorCom::ExisteCom(const TComplejo &c) const
 void TVectorCom::MostrarComplejos(double x) const
 {
     cout << "[";
-    for (int i = 1; i <= tamano; i++)
+    bool found = false;
+    for (int i = 0; i < tamano; i++)
     {
         if (c[i].Re() >= x)
         {
-            if (i != 1)
+            if (found)
             {
                 cout << ", ";
             }
-            cout << c[i] << endl;
+            found = true;
+            cout << c[i];
+            
         }
     }
-    cout << "]" << endl;
+    cout << "]";
 }
 
 bool TVectorCom::Redimensionar(int tam)
@@ -176,47 +166,52 @@ bool TVectorCom::Redimensionar(int tam)
         return false;
     }
 
-    TComplejo *aux = new TComplejo[tam];
+    if (tam > tamano) {
+        // Crear nuevo vector con el nuevo tamaño
+        TComplejo* nuevo = new TComplejo[tam];
 
-    if (tam > tamano)
-    {
-        for (int i = 1; i <= tamano; i++)
-        {
-            aux[i] = c[i];
+        // Copiar los elementos del vector original al nuevo
+        for (int i = 0; i < tamano; i++) {
+            nuevo[i] = c[i];
         }
 
-        for (int i = tamano+1; i <= tam; i++)
-        {
-            aux[i] = TComplejo();
+        // Inicializar los nuevos elementos con el constructor por defecto de TComplejo
+        for (int i = tamano; i < tam; i++) {
+            nuevo[i] = TComplejo();
         }
 
+        // Liberar la memoria del vector original y actualizar el puntero y el tamaño
+        delete[] c;
+        c = nuevo;
+        tamano = tam;
+
+        return true;
+    } else {
+        // Actualizar el tamaño del vector y eliminar los TComplejo que sobran
+        tamano = tam;
+        return true;
     }
-    else
-    {
-        for (int i = 0; i < tam; i++)
-        {
-            aux[i] = c[i];
-        }
-    }
-
-    delete [] c;
-    c = aux;
-    tamano = tam;
-    return true;
 }
 
-ostream& operator<<(ostream &os, const TVectorCom &v)
-{
-    os << "[";
-    for (int i = 1; i <= v.tamano; i++)
-    {
-        if (i != 1)
-        {
-            os << ", ";
-        }
-        os << "(" << i << ") " << v.c[i];
+
+
+ostream &operator<<(ostream &os, const TVectorCom &tv){
+    if(tv.tamano == 0 || tv.c == NULL){
+        os << "[]";
     }
-    os << "]";
+    else{
+        os << "[";
+        for(int i = 0; i < tv.tamano; i++){
+            os << "(" << i + 1 << ") ";
+            os << tv[i + 1];
+
+            if(i != tv.tamano - 1){
+                os << ", ";
+            }
+        }
+        os << "]";
+    }
+
     return os;
 }
 

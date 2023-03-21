@@ -11,7 +11,9 @@ class TComplejo
         double re;
         double im;
     public:
-        TComplejo(double = 0, double = 0);
+        TComplejo();
+        TComplejo(double);
+        TComplejo(double, double);
         TComplejo(const TComplejo &);
         ~TComplejo();
         double Re() const;
@@ -23,7 +25,7 @@ class TComplejo
         TComplejo operator+(const TComplejo &) const;
         TComplejo operator-(const TComplejo &) const;
         TComplejo operator*(const TComplejo &) const;
-        TComplejo operator=(const TComplejo &);
+        TComplejo& operator=(const TComplejo &);
         bool operator==(const TComplejo &) const;
         bool operator!=(const TComplejo &) const;
 

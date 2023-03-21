@@ -1,10 +1,22 @@
 #include "tcomplejo.h"
 #include <cmath>
 
-TComplejo::TComplejo(double r, double i)
+TComplejo::TComplejo()
 {
-    re = r;
-    im = i;
+    this -> re = 0;
+    this -> im = 0;
+}
+
+TComplejo::TComplejo(double re)
+{
+    this -> re = re;
+    this -> im = 0;
+}
+
+TComplejo::TComplejo(double re, double im)
+{
+    this -> re = re;
+    this -> im = im;
 }
 
 TComplejo::TComplejo(const TComplejo &c)
@@ -82,13 +94,16 @@ TComplejo TComplejo::operator*(const TComplejo &c) const
 }
 
 
-TComplejo TComplejo::operator=(const TComplejo &c)
+TComplejo& TComplejo::operator=(const TComplejo &c)
 {
-    re = c.re;
-    im = c.im;
-
+    if (this != &c)
+    {
+        re = c.re;
+        im = c.im;
+    }
     return *this;
 }
+
 
 bool TComplejo::operator==(const TComplejo &c) const
 {
@@ -103,6 +118,7 @@ bool TComplejo::operator!=(const TComplejo &c) const
 ostream & operator<<(ostream &os, const TComplejo &c)
 {
     os << "(" << c.re << " " << c.im << ")";
+    return os;
 }
 
 TComplejo operator+(double r, const TComplejo &c)

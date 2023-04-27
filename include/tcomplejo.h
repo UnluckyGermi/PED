@@ -20,14 +20,16 @@ class TComplejo
         double Im() const;
         void Re(double);
         void Im(double);
-        double Arg();
-        double Mod();
+        double Arg() const;
+        double Mod() const;
         TComplejo operator+(const TComplejo &) const;
         TComplejo operator-(const TComplejo &) const;
         TComplejo operator*(const TComplejo &) const;
         TComplejo& operator=(const TComplejo &);
         bool operator==(const TComplejo &) const;
         bool operator!=(const TComplejo &) const;
+        bool operator>(const TComplejo &) const;
+        bool operator<(const TComplejo &) const;
 
         friend ostream & operator<<(ostream &, const TComplejo &);
         friend TComplejo operator+(double, const TComplejo &);

@@ -51,13 +51,13 @@ void TComplejo::Im(double im)
     this -> im = im;
 }
 
-double TComplejo::Arg()
+double TComplejo::Arg() const
 {
     double aux = atan2(im, re);
     return aux;
 }
 
-double TComplejo::Mod()
+double TComplejo::Mod() const
 {
     double aux = sqrt(pow(re, 2) + pow(im, 2));
     return aux;
@@ -138,3 +138,38 @@ TComplejo operator*(double r, const TComplejo &c)
     TComplejo aux = TComplejo(r) * c;
     return aux;
 }
+
+bool TComplejo::operator<(const TComplejo &c) const
+{
+    if (Mod() < c.Mod())
+        return true;
+    else if (Mod() > c.Mod())
+        return false;
+    else
+    {
+        if (this -> Re() < c.Re())
+            return true;
+        else if (this -> Re() > c.Re())
+            return false;
+        else
+            return (this -> Im() < c.Im());
+    }
+}
+
+bool TComplejo::operator>(const TComplejo &c) const
+{
+    if (Mod() > c.Mod())
+        return true;
+    else if (Mod() < c.Mod())
+        return false;
+    else
+    {
+        if (this -> Re() > c.Re())
+            return true;
+        else if (this -> Re() < c.Re())
+            return false;
+        else
+            return (this -> Im() > c.Im());
+    }
+}
+

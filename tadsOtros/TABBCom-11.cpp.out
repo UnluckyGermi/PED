@@ -1,0 +1,8 @@
+OK - Insercion arbol1
+OK - Insercion arbol2
+OK - Insercion arbol3
+OK - Insercion vacio
+[(1) (-3 2)]
+[(1) (-3 2), (2) (0 0)]
+OK - Insercion elemento repetido
+[(1) (-3 2), (2) (0 0)]

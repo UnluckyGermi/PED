@@ -4,6 +4,8 @@
 #include <iostream>
 #include <queue>
 
+TNodoABB::TNodoABB() {}
+
 TNodoABB::TNodoABB(TNodoABB &n)
 {
     item = n.item;

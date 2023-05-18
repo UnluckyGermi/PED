@@ -44,7 +44,7 @@ private:
     
 
 public:
-    TNodoABB() : item(), iz(TABBCom()), de(TABBCom()) {}
+    TNodoABB();
     TNodoABB(TNodoABB &);
     ~TNodoABB();
     TNodoABB & operator=(TNodoABB &);

@@ -1,36 +1,41 @@
-/* Prueba:
-     - Borrar, Nodos
-*/
-
+/************************************************************
+** ESVACIO, BORRAR EN UN ARBOL DE 1 ELEMENTO
+*************************************************************/
 #include <iostream>
 #include "tavlcom.h"
-#include "tcomplejo.h"
-#include "tvectorcom.h"
+
 using namespace std;
 
+
 int
-main(void)
+main()
 {
-  TAVLCom a;
-  TComplejo c;
+  TAVLCom arb1;
+  TVectorCom vec;
 
-  for(int i = 1; i <= 1000; i++)
-  {
-    c.Re(i);
-    c.Im(i);
-    a.Insertar(c);
-  }
+  TComplejo b1(1,1);
+ 
+  if (arb1.EsVacio())
+	cout<<"Arbol vacio"<<endl;
+  else cout<<"Arbol no vacio"<<endl;
+ 
+  if (arb1.Borrar(b1))
+  	cout<<"Elemento borrado"<<endl;
+  else cout<<"Elemento no borrado"<<endl;
 
-  cout << "Nodos: " << a.Nodos() << endl;
+  arb1.Insertar(b1);
+ 
+  if (arb1.EsVacio())
+	cout<<"Arbol vacio"<<endl;
+  else cout<<"Arbol no vacio"<<endl;
 
-  for(int i = 1; i <= 1000; i++)
-  {
-    c.Re(i);
-    c.Im(i);
-    if(!a.Borrar(c)){
-      cout << "No se ha podido borrar el complejo " << c << endl;
-    }
-  }
+  if (arb1.Borrar(b1))
+  	cout<<"Elemento borrado"<<endl;
+  else cout<<"Elemento no borrado"<<endl;
+    
+  if (arb1.EsVacio())
+	cout<<"Arbol vacio"<<endl;
+  else cout<<"Arbol no vacio"<<endl;
 
-  cout << "Nodos: " << a.Nodos() << endl;
+  return 0; 
 }

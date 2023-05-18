@@ -3,15 +3,11 @@
 
 #include "tcomplejo.h"
 #include "tvectorcom.h"
-#include <queue>
 
 class TNodoAVL;
 
 class TAVLCom
 {
-private:
-    TNodoAVL* raiz;
-
 public:
     TAVLCom();
     TAVLCom(const TAVLCom&);
@@ -31,27 +27,19 @@ public:
     TVectorCom Inorden() const;
     TVectorCom Preorden() const;
     TVectorCom Postorden() const;
-    TVectorCom Niveles() const;
 
     friend ostream& operator<<(ostream&, const TAVLCom&);
 
 private:
-    void copia(const TAVLCom&);
-    bool EsMenor(const TComplejo&, const TComplejo&) const;
-    void Mover(TAVLCom&, TAVLCom&);
-    void Mover(TAVLCom&, TAVLCom*&);
-    void Mover(TAVLCom*&, TAVLCom&);
-    void Mover(TAVLCom*&, TAVLCom*&);
-    void NivelesAux(TVectorCom &, queue<TNodoAVL *> &, int &) const;
+    TNodoAVL* raiz;
+    void Copiar(const TAVLCom&);
     void Equilibrar();
-    bool EquilibrarIzquierda();
-    bool EquilibrarDerecha();
-    void RotacionIzquierda();
-    void RotacionDerecha();
     TComplejo MayorIzquierda(const TAVLCom&) const;
     void InordenAux(TVectorCom&, int&) const;
     void PreordenAux(TVectorCom&, int&) const;
     void PostordenAux(TVectorCom&, int&) const;
+    void RD();
+    void RI();
 };
 
 class TNodoAVL
@@ -68,7 +56,7 @@ public:
     TNodoAVL& operator=(const TNodoAVL&);
 
 private:
-    void copia(const TNodoAVL&);
+    void Copiar(const TNodoAVL&);
     bool EsHoja() const;
 
     friend class TAVLCom;
@@ -76,4 +64,4 @@ private:
 
 
 
-#endif /* TAVLCOM_H_ */
+#endif
